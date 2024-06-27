@@ -1,0 +1,1 @@
+docker run -p 9002:8080 --name productapi-container productapi
