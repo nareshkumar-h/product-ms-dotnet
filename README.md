@@ -29,7 +29,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Adjust path to your compiled DLL
-COPY bin/Debug/net8.0 .
+#COPY bin/Debug/net8.0 .
 
 # Expose port 
 EXPOSE 8080
