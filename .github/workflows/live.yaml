@@ -1,0 +1,36 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push | Production
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: nareshkumarh/productapi:latest
+      - name: Deploy | Production
+        uses: fjogeleit/http-request-action@main
+        with:
+          url: "https://portainer.technocis.in/api/webhooks/016d42f9-5461-4a70-8774-fd7cd132e826"
+          method: "POST"
+          preventFailureOnNoResponse: "true"
+          ignoreStatusCodes: "499"
