@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace ProductApi.Controllers;
 
 [ApiController]
-[Route("api/products")]
+[Route("apii/products")]
 [Produces("application/json")]
 public class ProductController : ControllerBase
 {
